@@ -1,0 +1,28 @@
+{
+  "name": "Time Echo Platformer",
+  "short_name": "TimeEcho",
+  "description": "Beat puzzles with your past self. A pixel-art time-echo platformer.",
+  "start_url": "destini.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08080f",
+  "theme_color": "#08080f",
+  "orientation": "landscape",
+  "categories": ["games"],
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

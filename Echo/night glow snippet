@@ -1,0 +1,62 @@
+//comes before lava
+
+
+   // ── Night glow (TORCHLIGHT) ─────────────────────────
+  function updateNightGlow() {
+    const isNight = level.isNight || C.THEMES[level.theme]?.isNight;
+    targetNightGlow = isNight ? 190 : 0;
+    nightGlowRadius += (targetNightGlow - nightGlowRadius) * 0.04;
+  }
+
+  // ── Torchlight overlay ─────────────────────────────
+  function drawNightGlow() {
+    if (nightGlowRadius < 5) return;
+    const sx = player.x - camX + 11;
+    const sy = player.y - camY + 19;
+
+    // Heavy darkness — more cave-like than before
+    ctx.save();
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = 'rgba(0,0,8,0.92)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    // Warm torchlight — amber core fading to dark red edge
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, nightGlowRadius);
+    g.addColorStop(0,    'rgba(255, 228, 140, 0.92)'); // bright warm white-yellow
+    g.addColorStop(0.12, 'rgba(255, 180,  60, 0.70)'); // orange inner
+    g.addColorStop(0.35, 'rgba(220,  90,  10, 0.38)'); // burnt orange mid
+    g.addColorStop(0.60, 'rgba(140,  30,   0, 0.16)'); // deep red outer
+    g.addColorStop(0.85, 'rgba( 60,   5,   0, 0.06)'); // near-black rim
+    g.addColorStop(1,    'rgba(  0,   0,   0, 0.00)'); // transparent edge
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(sx, sy, nightGlowRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Subtle flicker — tiny random brightness pulse
+    const flicker = 0.92 + Math.random() * 0.08;
+    const fg = ctx.createRadialGradient(sx, sy, 0, sx, sy, nightGlowRadius * 0.25);
+    fg.addColorStop(0,   `rgba(255, 240, 180, ${0.18 * flicker})`);
+    fg.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = fg;
+    ctx.beginPath();
+    ctx.arc(sx, sy, nightGlowRadius * 0.25, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Pet glow (star jelly only)
+    const pet = TEP.Auth.getPet?.();
+    if (pet === 'star_jellyfish') {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      const pg = ctx.createRadialGradient(sx + 32, sy - 10, 0, sx + 32, sy - 10, 55);
+      pg.addColorStop(0, 'rgba(180, 80, 255, 0.35)');
+      pg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = pg;
+      ctx.beginPath(); ctx.arc(sx + 32, sy - 10, 55, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+  }

@@ -6,19 +6,20 @@
       "destination": "/index.html"
     },
     {
+      "source": "/home",
+      "destination": "/index.html"
+    },
+    {
       "source": "/destini",
       "destination": "/destini.html"
     },
     {
       "source": "/destini/",
       "destination": "/destini.html"
-    }
-  ],
-  "redirects": [
+    },
     {
-      "source": "/admin",
-      "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "permanent": false
+      "source": "/play",
+      "destination": "/destini.html"
     }
   ]
 }
